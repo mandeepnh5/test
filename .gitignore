@@ -1,3 +1,5 @@
 local.settings.json
 __pycache__/
 .venv/
+test.py
+mlsdd.jpg
