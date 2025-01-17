@@ -1,0 +1,4 @@
+azure-functions
+opencv-python
+numpy
+Pillow
