@@ -14,7 +14,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Get base64 string from JSON
         if 'image' not in req_body:
             return func.HttpResponse(
-                "Please pass an 'image' field in the request body",
+                json.dumps({"error": "Please pass an 'image' field in the request body"}),
+                mimetype="application/json",
                 status_code=400
             )
             
@@ -40,18 +41,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         # Return JSON response with base64 image
         return func.HttpResponse(
-            body=json.dumps({
-                "processed_image": processed_image_base64
-            }),
+            json.dumps({"processed_image": processed_image_base64}),
             mimetype="application/json",
             status_code=200
         )
         
+    except ValueError as e:
+        return func.HttpResponse(
+            json.dumps({"error": "Invalid JSON in request body"}),
+            mimetype="application/json",
+            status_code=400
+        )
     except Exception as e:
         return func.HttpResponse(
-            body=json.dumps({
-                "error": str(e)
-            }),
+            json.dumps({"error": str(e)}),
             mimetype="application/json",
             status_code=500
         )
